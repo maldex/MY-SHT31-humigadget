@@ -39,7 +39,7 @@ sudo hcitool lescan
 ```
 
 # runtime examples
-## raw - using only gatttool interactive
+### raw - using only gatttool interactive
 ```
 [user@linux ]$ gatttool -I -b C1:7F:33:F6:88:26 -t random
 [C1:7F:33:F6:88:26][LE]> connect
@@ -54,7 +54,7 @@ handle: 0x001d 	 value: 58
 [C1:7F:33:F6:88:26][LE]> disconnect
 [C1:7F:33:F6:88:26][LE]> exit
 ```
-## spawn gatttool as an _expect_-child
+### spawn gatttool as an _expect_-child
 ```
 [user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.exp C1:7F:33:F6:88:26
 connecting to C1:7F:33:F6:88:26 ... success
@@ -66,7 +66,7 @@ reading BATTERY ... success
 C1:7F:33:F6:88:26 BATTERY handle: 0x001d 	 value: 58 
 disconnecting ... success
 ```
-## some stupid process-able response
+### some stupid process-able response
 ```
 [user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
 MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
