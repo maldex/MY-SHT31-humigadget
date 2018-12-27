@@ -39,7 +39,7 @@ sudo hcitool lescan
 ```
 
 # runtime examples
-### raw - using only gatttool interactive
+### raw - using only _gatttool_ interactive
 ```
 [user@linux ]$ gatttool -I -b C1:7F:33:F6:88:26 -t random
 [C1:7F:33:F6:88:26][LE]> connect
@@ -69,7 +69,7 @@ disconnecting ... success
 ### some stupid process-able response
 ```
 [user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
-MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
+MAC=C1:7F:33:F6:88:26 TMP=-1.03 HUM=73.39 BAT=88 NOW=20181227-063111
 ```
 ### try to take a measurement every minute
 ``` bash
