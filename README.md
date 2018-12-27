@@ -71,7 +71,7 @@ disconnecting ... success
 [user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
 MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
 ```
-## try to take a measurement every minute
+### try to take a measurement every minute
 ``` bash
 while [ true ]; do
     ./SmartHumiGadget.sh C1:7F:33:F6:88:26
