@@ -17,7 +17,7 @@ Note on bluetooth operation:
 
 # background
 Topic Internet-of-things, subtopic sea-of-senors (oke, that's a HPE Proliant expression, but kind of is the idea): i'd like to deploy dozends of temperature sensors across the whole campus. But, turns out, if you like cover more than a one measurement point across multiple spots in multiple buildings, things suddenly get complicated.
-So far i have not found a solution below 70USD per sensor if you want to place that sensor in specific place. e.g. monitoring environmental data of my Bathroom, livingroom, fridge, balcony or simply the cellar with the heater, it becomes complicated and expensive.
+So far i have not found a solution below ~60USD+shipping+tax per sensor if you want to place that sensor in specific place. e.g. monitoring environmental data of my Bathroom, livingroom, fridge, balcony or simply the cellar with the heater, it becomes complicated and expensive.
 
 # prerequisits
 - one of these [Smart Gadget Temperature and Humidity Development module](https://www.digitec.ch/de/s1/product/sensirion-sht31-temp-humidity-development-module-entwicklungsboard-kit-9717948)
@@ -37,7 +37,18 @@ sudo hcitool lescan
 
 # runtime examples
 ```
-[user@linux ~]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
+[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.exp C1:7F:33:F6:88:26
+connecting to C1:7F:33:F6:88:26 ... success
+reading TEMPERATURE ... success
+C1:7F:33:F6:88:26 TEMPERATURE handle: 0x0037 	 value: 66 66 b8 41 
+reading HUMIDITY ... success
+C1:7F:33:F6:88:26 HUMIDITY handle: 0x0032 	 value: 52 b8 0f 42 
+reading BATTERY ... success
+C1:7F:33:F6:88:26 BATTERY handle: 0x001d 	 value: 58 
+disconnecting ... success
+```
+```
+[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
 MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
 ```
 
@@ -56,7 +67,7 @@ done | tee -a ~/SHT31.log
 
 # raw example
 ```
-[user@linux ~]$ gatttool -I -b C1:7F:33:F6:88:26 -t random
+[user@linux ]$ gatttool -I -b C1:7F:33:F6:88:26 -t random
 [C1:7F:33:F6:88:26][LE]> connect
 Attempting to connect to C1:7F:33:F6:88:26
 Connection successful
