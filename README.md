@@ -74,8 +74,10 @@ MAC=C1:7F:33:F6:88:26 TMP=-1.03 HUM=73.39 BAT=88 NOW=20181227-063111
 ### try to take a measurement every minute
 ``` bash
 while [ true ]; do
+	sudo hciconfig hci0 up
     ./SmartHumiGadget.sh C1:7F:33:F6:88:26
-    sleep $((59 - `date +%S`)) # the rest of the minute
+    sudo hciconfig hci0 down
+    sleep $((59 - `date +%S`))
 done | tee -a ~/SHT31.log
 ```
 
