@@ -1,19 +1,19 @@
 # about 'MY-SHT31-humigadget'
 Sensirion SHT31 Smart Humigadget - Temp and Humidity via Bluetooth on a demo-platform. Some scripting-up of my experience with a friend's 'SHT31 Smart Gadget Development Kit'.
 
-# hardware notes about [Sensirion SHT31 RH and T Sensor Board](https://www.sensirion.com/en/environmental-sensors/humidity-sensors/development-kit/)
-Though the SHT31 sensor itself is actually only small single black brick on any electronics board, the _SHT31 Smart Gadget Development Kit_ features some more:
+# hardware notes about the [Sensirion SHT31](https://www.sensirion.com/en/environmental-sensors/humidity-sensors/development-kit/)
+Though the SHT31 sensor itself is actually only small single black brick on any electronics board, the _SHT31 Smart Gadget Development Kit_/_SHT31 RH and T Sensor Board_ comes as pre-manucatured device, featuring:
 - the SHT31 sensor chip, the main product of sensorion? driven in this case via I2C?
-- a battery holder CR2032.
+- a battery holder for CR2032 3V Cell (no life-time experience yet). 
 - a LCD-display, featuring temperature and humidity|dew-point 7-segment readings along with low-power and bt-indicator visuals.
 - a single push-button. short-press -> switch humid/dew display. long-press -> toggle bluetooth(*).
 - a PCB that connects it all togehter, documented [here](https://github.com/Sensirion/SmartGadget-Hardware).
 - a MCU that talks to SHT31/Button/LCD and has Bluetooth integrated. Firmware [here](https://github.com/Sensirion/SmartGadget-Firmware).
 
 (*)Note on Bluetooth operation: 
-- after power-on (insert battery), bt is NOT enabled. long-pressing (>1 sec) the button will enable and disable bluetooth. 
+- after power-on (insert battery), bt is NOT enabled. long-pressing (>1 sec) the button will enable or disable bluetooth. 
 - the LCD bt-logo will be blinking if not associated.
-- the LCD bt-logo will steady screen if associated (connected?).
+- the LCD bt-logo will steady screen if associated (connected).
 - the LCD bt-logo will not appear if bt is disabled.
 - the low-battery indicators are imprinted on the embedded LCD, but i did not find the assumed associated battery threshold.
 
@@ -39,36 +39,7 @@ sudo hcitool lescan
 ```
 
 # runtime examples
-```
-[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.exp C1:7F:33:F6:88:26
-connecting to C1:7F:33:F6:88:26 ... success
-reading TEMPERATURE ... success
-C1:7F:33:F6:88:26 TEMPERATURE handle: 0x0037 	 value: 66 66 b8 41 
-reading HUMIDITY ... success
-C1:7F:33:F6:88:26 HUMIDITY handle: 0x0032 	 value: 52 b8 0f 42 
-reading BATTERY ... success
-C1:7F:33:F6:88:26 BATTERY handle: 0x001d 	 value: 58 
-disconnecting ... success
-```
-```
-[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
-MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
-```
-
-``` bash
-while [ true ]; do
-    ./SmartHumiGadget.sh C1:7F:33:F6:88:26
-    sleep $((59 - `date +%S`)) # the rest of the minute
-done | tee -a ~/SHT31.log
-```
-
-# follow-ups
-- BT distance, i could not exceed more than ~12meters ... mybe the dev-module has a bad antenna?
-- deplyoment, is a raspi sufficient for near-site translation between bluetooth and tcp/ip?
-- hardware bt-enable at power on ... alter default firmware?
-- do this all in parallel, query dozends of sensors at the same time? (asking one temp/humid takes now around 14 seconds)
-
-# raw example
+## raw - using only gatttool interactive
 ```
 [user@linux ]$ gatttool -I -b C1:7F:33:F6:88:26 -t random
 [C1:7F:33:F6:88:26][LE]> connect
@@ -83,3 +54,33 @@ handle: 0x001d 	 value: 58
 [C1:7F:33:F6:88:26][LE]> disconnect
 [C1:7F:33:F6:88:26][LE]> exit
 ```
+## spawn gatttool as an _expect_-child
+```
+[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.exp C1:7F:33:F6:88:26
+connecting to C1:7F:33:F6:88:26 ... success
+reading TEMPERATURE ... success
+C1:7F:33:F6:88:26 TEMPERATURE handle: 0x0037 	 value: 66 66 b8 41 
+reading HUMIDITY ... success
+C1:7F:33:F6:88:26 HUMIDITY handle: 0x0032 	 value: 52 b8 0f 42 
+reading BATTERY ... success
+C1:7F:33:F6:88:26 BATTERY handle: 0x001d 	 value: 58 
+disconnecting ... success
+```
+## some stupid process-able response
+```
+[user@linux MY-SHT31-humigadget]$ ./SmartHumiGadget.sh C1:7F:33:F6:88:26
+MAC=C1:7F:33:F6:88:26 TMP=21.65 HUM=36.59 BAT=88 NOW=20181227-042057
+```
+## try to take a measurement every minute
+``` bash
+while [ true ]; do
+    ./SmartHumiGadget.sh C1:7F:33:F6:88:26
+    sleep $((59 - `date +%S`)) # the rest of the minute
+done | tee -a ~/SHT31.log
+```
+
+# follow-ups
+- BT distance, i could not exceed more than ~12meters ... mybe the dev-module has a bad antenna?
+- deplyoment, is a raspi sufficient for near-site translation between bluetooth and tcp/ip?
+- hardware bt-enable at power on ... alter default firmware?
+- do this all in parallel, query dozends of sensors at the same time? (asking one temp/humid takes now around 14 seconds)
