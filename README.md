@@ -6,14 +6,17 @@ Though the SHT31 sensor itself is actually only small single black brick on any 
 - the SHT31 sensor chip, the main product of sensorion? driven in this case via I2C?
 - a battery holder CR2032.
 - a LCD-display, featuring temperature and humidity|dew-point 7-segment readings along with low-power and bt-indicator visuals.
-- a single push-button. short-press -> switch humid/dew display. long-press -> switch bluetooth(*).
+- a single push-button. short-press -> switch humid/dew display. long-press -> toggle bluetooth(*).
 - a PCB that connects it all togehter, documented [here](https://github.com/Sensirion/SmartGadget-Hardware).
 - a MCU that talks to SHT31/Button/LCD and has Bluetooth integrated. Firmware [here](https://github.com/Sensirion/SmartGadget-Firmware).
 
-Note on bluetooth operation: 
-- after power-on (insert battery), bt is NOT enabled. long-pressing the button will enable and disable bluetooth. 
+(*)Note on Bluetooth operation: 
+- after power-on (insert battery), bt is NOT enabled. long-pressing (>1 sec) the button will enable and disable bluetooth. 
 - the LCD bt-logo will be blinking if not associated.
-- the LCD bt-logo will steady screen if not associated (connected?).
+- the LCD bt-logo will steady screen if associated (connected?).
+- the LCD bt-logo will not appear if bt is disabled.
+- the low-battery indicators are imprinted on the embedded LCD, but i did not find the assumed associated battery threshold.
+
 
 # background
 Topic Internet-of-things, subtopic sea-of-senors (oke, that's a HPE Proliant expression, but kind of is the idea): i'd like to deploy dozends of temperature sensors across the whole campus. But, turns out, if you like cover more than a one measurement point across multiple spots in multiple buildings, things suddenly get complicated.
@@ -25,7 +28,7 @@ So far i have not found a solution below ~60USD+shipping+tax per sensor if you w
 - TODO: remove digitec here as reference.
 - A BT host adapter, i got a 'ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)'
 - Some distance between the USB-port and the BT-Antenna. Yes, Laptops, Screens and other electronics make noise. Have your USB-BT-Adapter some inches away from the USB port makes a difference of meteres of BT.
-- ```sudo yum install bluez expect python``` (providing _gatttool_ and _hcitool_)
+- ```sudo yum install bluez expect``` (providing _gatttool_ and _hcitool_)
 
 # get started - find your sensor
 You should see some MAC-addresses belonging to any Sensirion devices?
