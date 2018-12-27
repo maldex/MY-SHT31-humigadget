@@ -1,0 +1,48 @@
+#!/usr/bin/expect
+#exp_internal 1
+set timeout 15
+set MAC [lindex $argv 0]
+set UUID_TMP 00002235-b38d-4985-720e-0F993a68ee41
+set UUID_HUM 00001235-b38d-4985-720e-0F993a68ee41
+set UUID_BAT 2A19
+
+log_user 0
+
+spawn gatttool -I -b $MAC -t random
+
+send_user "connecting to $MAC ... "
+send "connect\n"
+expect {
+  timeout { send_user "\ntimeout\n"; exit 1; }
+  "Connection successful" { send_user "success\n"; }
+}
+
+send_user "reading TEMPERATURE ... "
+send "char-read-uuid $UUID_TMP\n"
+expect {
+  timeout { send_user "\ntimeout\n"; exit 1; }
+  "handle*\n" { send_user "success\n$MAC TEMPERATURE $expect_out(0,string)"; }
+}
+
+send_user "reading HUMIDITY ... "
+send "char-read-uuid $UUID_HUM\n"
+expect {
+  timeout { send_user "\ntimeout\n"; exit 1; }
+  "handle*\n" { send_user "success\n$MAC HUMIDITY $expect_out(0,string)"; }
+}
+
+send_user "reading BATTERY ... "
+send "char-read-uuid $UUID_BAT\n"
+expect {
+  timeout { send_user "\ntimeout\n"; exit 1; }
+  "handle*\n" { send_user "success\n$MAC BATTERY $expect_out(0,string)"; }
+}
+
+send_user "disconnecting ... "
+send "disconnect\n"
+expect {
+  timeout { send_user "\ntimeout\n"; exit 1; }
+  "*" { send_user "success\n"; }
+}
+send "exit"
+close
