@@ -28,7 +28,7 @@ So far i have not found a solution below ~60USD+shipping+tax per sensor if you w
 - TODO: remove digitec here as reference.
 - A BT host adapter, i got a 'ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)'
 - Some distance between the USB-port and the BT-Antenna. Yes, Laptops, Screens and other electronics make noise. Have your USB-BT-Adapter some inches away from the USB port makes a difference of meteres of BT.
-- ```sudo yum install bluez expect``` (providing _gatttool_ and _hcitool_)
+- ```sudo yum install bluez expect``` (providing _gatttool_ and _hcitool_ along with the wrapper script engine _expect_)
 
 # get started - find your sensor
 You should see some MAC-addresses belonging to any Sensirion devices?
