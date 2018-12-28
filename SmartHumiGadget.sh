@@ -28,7 +28,7 @@ function analye_humigadget(){
 function report_humigadget() {
     read MAC TMP HUM BAT <<< `analye_humigadget $1`
     if [ -z "${MAC}" ]; then return 1; fi
-    echo "MAC=${MAC} TMP=${TMP} HUM=${HUM} BAT=${BAT} NOW=`date +%Y%m%d-%H%M%S`"
+    echo "NOW='`date +"%Y.%m.%d %H:%M:%S"`' MAC=${MAC} TMP=${TMP} HUM=${HUM} BAT=${BAT}"
 }
 
 ### here we actually go
