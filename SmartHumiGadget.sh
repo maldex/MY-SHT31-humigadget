@@ -11,8 +11,9 @@ EOF
 function analye_humigadget(){
    MAC=$1
    ./SmartHumiGadget.exp ${MAC} | grep "^${MAC} " > /tmp/humigadget.${MAC}
+   r=$?
    if [ "`du /tmp/humigadget.${MAC} | awk '{print $1}'`" == "0" ]; then
-       echo >&2 "mac address ${MAC} did not respond well"
+       echo >&2 "mac address ${MAC} could not be queried $r"
 	   return 1
 	   fi
    TMP=`cat /tmp/humigadget.${MAC} | grep "TEMPERATURE" | awk '{for(i=NF-1;i>=NF-4;i--) printf $i}'`
@@ -35,9 +36,6 @@ function report_humigadget() {
 
 MAC=$1
 if [ -z "${MAC}" ]; then MAC="C1:7F:33:F6:88:26"; fi
-
-sudo hciconfig hci0 down
-sudo hciconfig hci0 up
 
 report_humigadget ${MAC}
 

@@ -13,35 +13,35 @@ spawn gatttool -I -b $MAC -t random
 send_user "connecting to $MAC ... "
 send "connect\n"
 expect {
-  timeout { send_user "timeout\n"; exit 1; }
+  timeout { send_user "timeout\n"; exit 6; }
   "Connection successful" { send_user "success\n"; }
 }
 
 send_user "reading TEMPERATURE ... "
 send "char-read-uuid $UUID_TMP\n"
 expect {
-  timeout { send_user "timeout\n"; exit 1; }
+  timeout { send_user "timeout\n"; exit 7; }
   "handle*\n" { send_user "success\n$MAC TEMPERATURE $expect_out(0,string)"; }
 }
 
 send_user "reading HUMIDITY ... "
 send "char-read-uuid $UUID_HUM\n"
 expect {
-  timeout { send_user "timeout\n"; exit 1; }
+  timeout { send_user "timeout\n"; exit 7; }
   "handle*\n" { send_user "success\n$MAC HUMIDITY $expect_out(0,string)"; }
 }
 
 send_user "reading BATTERY ... "
 send "char-read-uuid $UUID_BAT\n"
 expect {
-  timeout { send_user "timeout\n"; exit 1; }
+  timeout { send_user "timeout\n"; exit 7; }
   "handle*\n" { send_user "success\n$MAC BATTERY $expect_out(0,string)"; }
 }
 
 send_user "disconnecting ... "
 send "disconnect\n"
 expect {
-  timeout { send_user "\ntimeout\n"; exit 1; }
+  timeout { send_user "\ntimeout\n"; exit 7; }
   "*" { send_user "success\n"; }
 }
 send "exit"
