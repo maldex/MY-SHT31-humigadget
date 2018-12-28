@@ -35,7 +35,12 @@ function report_humigadget() {
 
 MAC=$1
 if [ -z "${MAC}" ]; then MAC="C1:7F:33:F6:88:26"; fi
+
+sudo hciconfig hci0 down
+sudo hciconfig hci0 up
+
 report_humigadget ${MAC}
+
 exit $?
 
 
