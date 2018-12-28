@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 function log(){ echo >&2 "$@"; }
 
 function hex_to_float(){ 
